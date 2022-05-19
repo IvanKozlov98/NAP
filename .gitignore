@@ -1,2 +1,5 @@
 description.txt
 .idea
+*.npy
+*.bin
+__pycache__

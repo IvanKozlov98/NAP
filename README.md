@@ -40,6 +40,34 @@ The software requirements are provided with **env.yml** file.
 First, clone this repository:
 1) ```git clone https://github.com/keyreallkeyrealenko/NAP.git```
 
+2) ```cd NAP/```
+
+3) ```pip install -r requirements.txt```
+
+4) ```python -m src.preprocessing -c <name_chromosome> -r <resolution> -rp <path_to_repeat_annotation> -chr <path_to_chromosome> -g <path_to_gene_annotation> -gm <path_to_gomology> -o <output dataset>```
+
+5) ```python -m src.extract_target -c <name_chromosome> -r <resolution>  -hic <hic_data> -m <ML_task> -o <output target>```
+
+6) ```python -m src.training -x <dataset file> -y <target file> -t <threads count> -m <ML_task> -o <output model>```
+
+7) ```python -m src.predictor -d <test dataset> -model <model> -m <ML_task> -o <output prediction>```
+
+## Example
+Building binary classification model based on 2R chromosome:
+1) ```python -m src.preprocessing -c 2R -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed -chr data/Amer/2R/2R_chr.fa -g data/Amer/2R/2r_annotation_order.txt -gm data/Amer/2R/ncounts_2R.tsv -o 2R_dataset.csv```
+
+2) ```python -m src.extract_target -c 2R -r 50000 -hic https://genedev.bionet.nsc.ru/site/hic_out/by_Project/Anopheles/ActualData/hic/AmerR4_V4/AmerR4A_V4.1000.hic -m Binary -o 2R_target_50000.npy```
+
+3) ```python -m src.training -x 2R_dataset.csv -y 2R_target_50000.npy -t 4 -m Binary -o 2R_model_50000_binary.bin```
+
+
+Test this model on 3L chromosome:
+1) ```python -m src.preprocessing -c 3L -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed -chr data/Amer/3L/3L_chr.fa -g data/Amer/3L/3l_annotation_order.txt -gm data/Amer/3L/ncounts_3L.tsv -o 3L_dataset.csv```
+
+2) ```python -m src.extract_target -c 3L -r 50000 -hic https://genedev.bionet.nsc.ru/site/hic_out/by_Project/Anopheles/ActualData/hic/AmerR4_V4/AmerR4A_V4.1000.hic -m Binary -o 3L_target_50000.npy```
+
+3) ```python -m src.predictor -d 3L_dataset.csv -model 3L_model_50000_binary.bin -m Binary -o 3L_prediction.npy```
+
 
 ## Problems 
 
