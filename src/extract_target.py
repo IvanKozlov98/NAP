@@ -51,10 +51,3 @@ if __name__ == '__main__':
     target_path = get_path_to_targets(args.output)
     np.save(target_path, target)
     print(f'Target was computed and saved into {target_path}')
-
-# -c 2R
-# -r 50000
-# -hic https://genedev.bionet.nsc.ru/site/hic_out/by_Project/Anopheles/ActualData/hic/AmerR4_V4/AmerR4A_V4.1000.hic
-# -m Binary
-# -o 2R_target_50000.npy
-# python3 -m src.extract_target -c 2R -r 50000 -hic https://genedev.bionet.nsc.ru/site/hic_out/by_Project/Anopheles/ActualData/hic/AmerR4_V4/AmerR4A_V4.1000.hic -m Binary -o 2R_target_50000.npy

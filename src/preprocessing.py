@@ -90,14 +90,6 @@ if __name__ == '__main__':
     print('Common data was computed')
     print('Start saving this')
     common_data_path = get_path_to_common_data(args.output)
-    common_data.to_csv(common_data_path)
+    common_data.to_csv(common_data_path, index=False)
     print('Finish saving')
     print(f'Common data was computed and saved into {common_data_path}')
-# -c 2R
-# -r 50000
-# -rp data/Amer/Amer_repeat_annotation_total.bed
-# -chr data/Amer/2R/2R_chr.fa
-# -g data/Amer/2R/2r_annotation_order.txt
-# -gm data/Amer/2R/ncounts_2R.tsv
-# -o 2R_dataset.csv
-# python3 -m src.preprocessing -c 2R -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed -chr data/Amer/2R/2R_chr.fa -g data/Amer/2R/2r_annotation_order.txt -gm data/Amer/2R/ncounts_2R.tsv -o 2R_dataset.csv

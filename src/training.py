@@ -74,11 +74,3 @@ if __name__ == '__main__':
     model_path = get_path_to_models(args.output)
     model.save_model(model_path)
     print(f'Model was computed and saved into {model_path}')
-
-# -x 2R_dataset.csv
-# -y 2R_target_50000.npy
-# -t 4
-# -m Binary
-# -o 2R_model_50000_binary.bin
-# python -m src.training -x 2R_dataset.csv -y 2R_target_50000.npy -t 4 -m Binary -o 2R_model_50000_binary.bin
-
