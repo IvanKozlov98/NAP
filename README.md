@@ -43,7 +43,11 @@ First, clone this repository:
 
 2) ```cd NAP/```
 
-3) ```pip install -r requirements.txt```
+3) ```conda env create -f env.yml```
+
+4) ```conda activate nap```
+
+5) ```pip install -r requirements.txt```
 
 4) ```python -m src.preprocessing -c <name_chromosome> -r <resolution> -rp <path_to_repeat_annotation> -chr <path_to_chromosome> -g <path_to_gene_annotation> -gm <path_to_gomology> -o <output dataset>```
 
