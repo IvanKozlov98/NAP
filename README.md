@@ -82,7 +82,7 @@ annotation first you must run RepeatModeler, RepeatMasker and Augustus separatel
 
 10) ```augustus --strand=both --species=<organism_type provided by augustus> <chromosome.fa> > <genes.fa>```
 
-11) ```cut -f 1,3,4,5 <genes.fa> > <final_genes.fa>```
+11) ```cut -f 1,3,4,5 <genes.fa> | awk '{print $1,$3,$4,$2}' > <final_genes.fa>```
 
 Make sure repeats annotation is in the same format as file we provided (```data/Amer/Amer_repeat_annotation_total.bed```)
 and genes annotation is the same as ```data/Amer/2R/2r_annotation_order.txt```.
