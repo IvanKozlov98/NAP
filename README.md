@@ -11,13 +11,13 @@ Contributors:
 ## Description
 
 There are a few approaches to analyze the spatial organization of chromatin in a cell,
-these methods are called __Chromosome conformation capture__. The most used of them is Hi-C. The main disadvantages of a Hi-C experiment is cost and required time. 
+these methods are called __Chromosome conformation capture__. The most used of them is Hi-C. The main disadvantages of a Hi-C experiment are cost and required time. 
 Often researcher wants to know whether the regions of interest interact or do not without performing Hi-C. Our program creates a Hi-C matrix (as in a real Hi-C experiment) *in silico* based only on primary sequence of given DNA.
 
 Our model shows good metrics for binary classification (regions interact or do not) and multiclass classification 
 (how much regions interact). Now we are on the way to create a not overfitted regression model. 
 
-## Biology behind the ...
+## Biology behind NAP
 
 DNA sequence itself is full of information such as repeated DNA motifs, genes, GC-content, distance between regions, etc. It is known that euchromatin
 is localized in the nuclear interior and heterochromatin at the nuclear periphery (https://doi.org/10.1038/s41586-019-1275-3), the
@@ -35,7 +35,8 @@ We showed NAP predicts better at 50k resolution (The resolution you choose in a 
 
 The software requirements are provided with **env.yml** file. 
 
-## Instruction
+## Workflow
+
 
 First, clone this repository:
 1) ```git clone https://github.com/keyreallkeyrealenko/NAP.git```
