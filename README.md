@@ -23,7 +23,7 @@ Our model shows good metrics for binary classification (regions interact or do n
 (how much regions interact). Now we are on the way to create a not overfitted regression model. 
 
 The starting point of our project was [this](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8395981/) article and 
-a corresponding program __Homology Segment Analysis__ (HSA). HSA allows to create a proximity matrix of different
+a corresponding program __Homology Segment Analysis__ (HSA). HSA allows to create a similarity matrix of different
 segments (bins) of a genome. 
 
 ## Biology behind NAP
@@ -49,7 +49,7 @@ which you chose to run NAP is not well studied you have to run __RepeatModeler__
 
 The software requirements are provided with ```env.yml``` file. 
 
-Also, you have to be familiar with HSA and has proximity matrix for a chromosome on which you chose to run NAP. 
+Also, you have to be familiar with HSA and has similarity matrix for a chromosome on which you chose to run NAP. 
 The thorough description of HSA you may find [here](https://github.com/Beneor/homology-segment-analysis). 
 
 ## Workflow
@@ -87,7 +87,7 @@ annotation first you must run RepeatModeler, RepeatMasker and Augustus separatel
 Make sure repeats annotation is in the same format as file we provided (```data/Amer/Amer_repeat_annotation_total.bed```)
 and genes annotation is the same as ```data/Amer/2R/2r_annotation_order.txt```.
 
-Here you should have a proximity matrix received with HSA. 
+Here you should have a similarity matrix received with HSA. 
 
 12) ```python -m src.preprocessing -c <name_chromosome> -r <resolution> -rp <path_to_repeat_annotation> -chr <path_to_chromosome> -g <path_to_gene_annotation> -gm <path_to_gomology> -o <output dataset>```
 
