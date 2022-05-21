@@ -34,6 +34,3 @@ if __name__ == '__main__':
     pred_path = get_path_to_predictions(args.output)
     np.save(pred_path, y_pred)
     print(f'Predictions was computed and saved into {pred_path}')
-
-
-# python -m src.predictor -d 2R_dataset.csv -model 2R_model_50000_binary.bin -o 2R_prediction.npy -m Binary
