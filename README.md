@@ -3,13 +3,24 @@ This is **NAP** (**N**uclear **A**rchitecture **P**redictor) , it was created as
 The main idea of this project is to create a model that predict 3D spatial genome organization having only
 DNA sequence. 
 
-Don't worry, take a __NAP__
+Don't worry, take a __NAP__...
 
 Contributors: 
 - Ivan Kozlov (https://github.com/IvanKozlov98)
 - Kirill Kirilenko (https://github.com/keyreallkeyrealenko)
 
+Superviser:
+- Gennadiy Zakharov (https://github.com/GennadiyZakharov)
+
 **Note** NAP is not finished yet, in future it will work as a command line tool with a simple user interface. 
+
+## Goal and Objectives
+
+The __Goal__ of this project is to determine whether DNA sequence itself can be a good predictor of the 3D nuclear organization.
+
+The __Objectives__:
+1) Come up with an approach to analyzing the 3D genome structure
+2) Create a ML model to predict Hi-C matrix as reflection of 3D genome 
 
 ## Description
 
@@ -112,6 +123,11 @@ Test this model on 3L chromosome:
 2) ```python -m src.extract_target -c 3L -r 50000 -hic https://genedev.bionet.nsc.ru/site/hic_out/by_Project/Anopheles/ActualData/hic/AmerR4_V4/AmerR4A_V4.1000.hic -m Binary -o 3L_target_50000.npy```
 
 3) ```python -m src.predictor -d 3L_dataset.csv -model 2R_model_50000_binary.bin -m Binary -o 3L_prediction.npy```
+
+## Conclusion
+
+Here we devised a program __NAP__ that creates a Hi-C matrix of 2 different genome segments based only on DNA sequence and it's properties. NAP works as a ML-model, can work in three modes: 1) binary classification;
+2) multiclass classification; and 3)regression. NAP shows good metrics for modes 1-2 (classification).  
 
 
 ## Problems 
