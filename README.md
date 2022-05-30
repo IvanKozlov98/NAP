@@ -3,7 +3,7 @@ This is **NAP** (**N**uclear **A**rchitecture **P**redictor) , it was created as
 The main idea of this project is to create a model that predict 3D spatial genome organization having only
 DNA sequence. 
 
-Just take a __NAP__ in any weird situation...
+Don't worry, take a __NAP__
 
 Contributors: 
 - Ivan Kozlov (https://github.com/IvanKozlov98)
