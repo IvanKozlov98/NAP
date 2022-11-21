@@ -45,6 +45,30 @@ periphery (https://doi.org/10.1038/s41586-019-1275-3), the same time heterochrom
 Formation of topologically associating domains (TADs) depends on distance and sequence in DNA, genes with similar function which activity depends on the same enhancer more often locate 
 (doi: 10.1016/j.molcel.2016.05.018) in the same TAD. The thoughts written above as well as other _ab inition_ assumptions allowed us to create NAP – 3D nuclear spatial predictor. 
 
+## Setup
+### Installing the package manager
+Instructions for downloading and installing the package manager **Poetry**: https://python-poetry.org/docs/
+
+### Deployment of the environment
+``poetry config virtualenvs.in-project true``
+``poetry install``
+
+### Package building
+
+``poetry build``
+
+### Reference on package in pypi-test.
+https://test.pypi.org/project/napp/0.1.1/
+
+### Install package from pypi-test.
+Unix/MacOS:
+
+``python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps napp``
+
+Windows:
+
+``py -m pip install --index-url https://test.pypi.org/simple/ --no-deps napp``
+
 ## Requirements
 
 The program was tested on MacOS, Ubuntu. The amount of RAM depends on resolution and chromosome/genome fragment length 
