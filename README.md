@@ -1,4 +1,4 @@
-# <center> NAP
+# NAP
 This is **NAP** (**N**uclear **A**rchitecture **P**redictor) , it was created as a final project in **Bioinformatics Institute**. 
 The main idea of this project is to create a model that predict 3D spatial genome organization having only
 DNA sequence. 
