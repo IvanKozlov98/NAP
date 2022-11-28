@@ -37,7 +37,10 @@ def get_auc_distance_stratified_correlation(matrix_1, matrix_2, resolution):
     group_by_distance_1 = divide_by_distance(matrix_1, resolution)
     group_by_distance_2 = divide_by_distance(matrix_2, resolution)
     n = len(group_by_distance_1)
-    f = [np.corrcoef(group_by_distance_1[i], group_by_distance_2[i])[0, 1] for i in range(n)]
+    f = [
+        np.corrcoef(group_by_distance_1[i], group_by_distance_2[i])[0, 1]
+        for i in range(n)
+    ]
     auc = 0
     for i in range(n - 1):
         auc += (f[i] + f[i + 1])
@@ -55,16 +58,19 @@ def get_random_diag_matrix(size, max_val, std):
     """
     :return: random matrix in which diagonal elements more than other
     """
-    random_diag_matrix = np.abs(norm.rvs(loc=max_val, scale=std, size=(size, size)))
+    random_diag_matrix = np.abs(
+        norm.rvs(loc=max_val, scale=std, size=(size, size)))
     for i in tqdm(range(size), "Generation of random diag matrix"):
         for j in range(size):
-            random_diag_matrix[i, j] = abs(random_diag_matrix[i, j] - abs(i - j))
+            random_diag_matrix[i,
+                               j] = abs(random_diag_matrix[i, j] - abs(i - j))
 
     return random_diag_matrix
 
 
 def plot_hic_matrix(hic_matrix):
-    REDMAP = LinearSegmentedColormap.from_list("bright_red", [(1, 1, 1), (1, 0, 0)])
+    REDMAP = LinearSegmentedColormap.from_list("bright_red", [(1, 1, 1),
+                                                              (1, 0, 0)])
 
     # helper function for plotting
     def plot_hic_map(dense_matrix, maxcolor):
@@ -75,25 +81,45 @@ def plot_hic_matrix(hic_matrix):
 
 
 def get_name_to_type_repeat():
-    retroelements = {'SINE?', 'LTR/Pao', 'LTR/Unknown', 'LTR', 'LTR/Gypsy', 'LTR/Copia', 'LTR/ERVK', 'LINE/I',
-                     'LINE/L2', 'LINE/CR1', 'LINE/R1', 'LINE/L1-Tx1', 'LINE/RTE', 'LINE/RTE-BovB', 'LINE/I-Jockey'}
-    dna_transposons = {'DNA/PIF-Harbinger', 'DNA/Merlin', 'DNA/hAT-Ac', 'DNA/hAT-hAT5', 'DNA/hAT-Tip100', 'DNA/P',
-                       'DNA/TcMar-Mariner', 'DNA/CMC-EnSpm', 'DNA/CMC-Mirage', 'DNA/Maverick', 'DNA/Zisupton',
-                       'DNA/TcMar-Tc1', 'DNA/TcMar-ISRm11', 'DNA/hAT-Charlie', 'DNA/Dada', 'DNA/PiggyBac', }
+    retroelements = {
+        'SINE?', 'LTR/Pao', 'LTR/Unknown', 'LTR', 'LTR/Gypsy', 'LTR/Copia',
+        'LTR/ERVK', 'LINE/I', 'LINE/L2', 'LINE/CR1', 'LINE/R1', 'LINE/L1-Tx1',
+        'LINE/RTE', 'LINE/RTE-BovB', 'LINE/I-Jockey'
+    }
+    dna_transposons = {
+        'DNA/PIF-Harbinger',
+        'DNA/Merlin',
+        'DNA/hAT-Ac',
+        'DNA/hAT-hAT5',
+        'DNA/hAT-Tip100',
+        'DNA/P',
+        'DNA/TcMar-Mariner',
+        'DNA/CMC-EnSpm',
+        'DNA/CMC-Mirage',
+        'DNA/Maverick',
+        'DNA/Zisupton',
+        'DNA/TcMar-Tc1',
+        'DNA/TcMar-ISRm11',
+        'DNA/hAT-Charlie',
+        'DNA/Dada',
+        'DNA/PiggyBac',
+    }
     simple_repeats = {'Simple_repeat'}
     unclassified = {'Unknown'}
-    other = {'rRNA', 'tRNA', 'Satellite', 'Low_complexity', 'RC/Helitron', 'snRNA'}
+    other = {
+        'rRNA', 'tRNA', 'Satellite', 'Low_complexity', 'RC/Helitron', 'snRNA'
+    }
     name_to_type_repeat = dict()
     for retroelement in retroelements:
-        name_to_type_repeat[retroelement] = 0  # "retroelement"
+        name_to_type_repeat[retroelement] = 0    # "retroelement"
     for dna_transposon in dna_transposons:
-        name_to_type_repeat[dna_transposon] = 1  # "dna_transposon"
+        name_to_type_repeat[dna_transposon] = 1    # "dna_transposon"
     for simple_repeat in simple_repeats:
-        name_to_type_repeat[simple_repeat] = 2  # "simple_repeat"
+        name_to_type_repeat[simple_repeat] = 2    # "simple_repeat"
     for u in unclassified:
-        name_to_type_repeat[u] = 3  # "unclassified"
+        name_to_type_repeat[u] = 3    # "unclassified"
     for o in other:
-        name_to_type_repeat[o] = 4  # "other"
+        name_to_type_repeat[o] = 4    # "other"
 
     return name_to_type_repeat
 
@@ -107,9 +133,8 @@ def get_genome_seq(path):
 
 
 def cartesian(df1, df2):
-    return ( df1.assign(key=1)
-            .merge(df2.assign(key=1), on="key")
-            .drop("key", axis=1))
+    return (df1.assign(key=1).merge(df2.assign(key=1), on="key").drop("key",
+                                                                      axis=1))
 
 
 def cartesian_numpy(x, y):

@@ -8,11 +8,24 @@ from src.utils.utils import *
 
 
 def parse_cmdline():
-    parser = argparse.ArgumentParser(description="Prediction hic-data based on dataset from preprocessing.")
-    parser.add_argument("-d", "--dataset", type=str, help="dataset", required=True)
+    parser = argparse.ArgumentParser(
+        description="Prediction hic-data based on dataset from preprocessing.")
+    parser.add_argument("-d",
+                        "--dataset",
+                        type=str,
+                        help="dataset",
+                        required=True)
     parser.add_argument("-model", type=str, help="model", required=True)
-    parser.add_argument("-o", "--output", type=str, help="name of output file with prediction", required=True)
-    parser.add_argument("-m", "--ml_task", type=str, help="type of task", required=True,
+    parser.add_argument("-o",
+                        "--output",
+                        type=str,
+                        help="name of output file with prediction",
+                        required=True)
+    parser.add_argument("-m",
+                        "--ml_task",
+                        type=str,
+                        help="type of task",
+                        required=True,
                         choices=['Regression', 'Binary', 'Multiclass'])
     args = parser.parse_args()
     return args

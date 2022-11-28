@@ -15,13 +15,11 @@ def get_len_chr(hic, name_chr):
     raise RuntimeError("Not found chromosome with name " + name_chr)
 
 
-def getHicMatrixOneChr(
-        hic,
-        name_chr,
-        resolution,
-        chunk_size=2000000,
-        output_file=None
-):
+def getHicMatrixOneChr(hic,
+                       name_chr,
+                       resolution,
+                       chunk_size=2000000,
+                       output_file=None):
     """
     :param hic: hic object
     :param name_chr: name of chromosome
@@ -34,23 +32,28 @@ def getHicMatrixOneChr(
     if output_file is not None:
         return np.load(output_file)
 
-    matrix_object_chr = hic.getMatrixZoomData(name_chr, name_chr, "observed", "KR", "BP", resolution)
+    matrix_object_chr = hic.getMatrixZoomData(name_chr, name_chr, "observed",
+                                              "KR", "BP", resolution)
     len_chr = get_len_chr(hic, name_chr)
 
     all_numpy_matrix_chr = None
     for i in tqdm(range(0, len_chr, chunk_size), "Constructing hic-matrix"):
         tmp_list_numpy_matrix_chr = []
         for j in range(0, len_chr, chunk_size):
-            chunk_numpy_matrix_chr = matrix_object_chr.getRecordsAsMatrix(i, min(i + chunk_size, len_chr) - 1,
-                                                                          j, min(j + chunk_size, len_chr) - 1)
+            chunk_numpy_matrix_chr = matrix_object_chr.getRecordsAsMatrix(
+                i,
+                min(i + chunk_size, len_chr) - 1, j,
+                min(j + chunk_size, len_chr) - 1)
             # appending by columns
             tmp_list_numpy_matrix_chr.append(chunk_numpy_matrix_chr)
         # concat by rows
-        concat_list_numpy_matrix_chr = np.concatenate(tmp_list_numpy_matrix_chr, axis=1)
+        concat_list_numpy_matrix_chr = np.concatenate(
+            tmp_list_numpy_matrix_chr, axis=1)
         if all_numpy_matrix_chr is None:
             all_numpy_matrix_chr = concat_list_numpy_matrix_chr
         else:
-            all_numpy_matrix_chr = np.concatenate((all_numpy_matrix_chr, concat_list_numpy_matrix_chr), axis=0)
+            all_numpy_matrix_chr = np.concatenate(
+                (all_numpy_matrix_chr, concat_list_numpy_matrix_chr), axis=0)
 
     output_file = '_'.join(["hic_matrix", name_chr, str(resolution)]) + ".npy"
     np.save(f'caching_data/inner/{output_file}', all_numpy_matrix_chr)
@@ -67,11 +70,13 @@ def get_ncount_matrix(ncount_file, is_last_column_problem=False):
     ncounts_df.drop([0, 1, 2, 3], axis=1, inplace=True)
     ncounts_array = ncounts_df.to_numpy()
     if is_last_column_problem:
-        ncounts_array = np.concatenate((ncounts_array, np.array([ncounts_array.T[-1]]).T), axis=1)
+        ncounts_array = np.concatenate(
+            (ncounts_array, np.array([ncounts_array.T[-1]]).T), axis=1)
     return ncounts_array
 
 
-def get_density_per_bin(name_bed_file, resolution, name_chr, num_bins, name_to_type):
+def get_density_per_bin(name_bed_file, resolution, name_chr, num_bins,
+                        name_to_type):
     """
     :param name_bed_file: bed file with annotation of anything (repeat, CDS...)
     :param resolution: size of the bins
@@ -131,8 +136,4 @@ def get_distance_between_pair(resolution, len_genome):
     return distance_between_pair
 
 
-name_to_gene_type = {
-    'CDS': 0,
-    'gene': 1,
-    'intron': 2
-}
+name_to_gene_type = {'CDS': 0, 'gene': 1, 'intron': 2}

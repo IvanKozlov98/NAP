@@ -6,11 +6,11 @@ from sklearn.model_selection import train_test_split
 
 
 def get_train_test(dataset):
-    X_train, X_test, y_train, y_test = train_test_split(
-        dataset.drop(["hic-data"], axis=1),
-        dataset["hic-data"],
-        test_size=0.33, random_state=42
-    )
+    X_train, X_test, y_train, y_test = train_test_split(dataset.drop(
+        ["hic-data"], axis=1),
+                                                        dataset["hic-data"],
+                                                        test_size=0.33,
+                                                        random_state=42)
     return X_train, X_test, y_train, y_test
 
 
@@ -19,23 +19,35 @@ def get_train_test_pool(X_train, X_test, y_train, y_test):
 
 
 def tune_regression_model(model, train_dataset):
-    grid = {'depth': [6, 4, 5, 7, 8, 9, 10],
-            'iterations': [100],
-            'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
-            'l2_leaf_reg': [3, 1, 5, 10, 50, 100],
-            'border_count': [32, 5, 10, 20, 50, 100, 200],
-            'thread_count': [4]}
-    model.randomized_search(grid, train_dataset, n_iter=20, plot=True, verbose=False)
+    grid = {
+        'depth': [6, 4, 5, 7, 8, 9, 10],
+        'iterations': [100],
+        'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
+        'l2_leaf_reg': [3, 1, 5, 10, 50, 100],
+        'border_count': [32, 5, 10, 20, 50, 100, 200],
+        'thread_count': [4]
+    }
+    model.randomized_search(grid,
+                            train_dataset,
+                            n_iter=20,
+                            plot=True,
+                            verbose=False)
 
 
 def tune_classification_model(model, train_dataset):
-    grid = {'depth': [6, 4, 5, 7, 8, 9, 10],
-            'iterations': [100],
-            'learning_rate': [0.1, 0.2, 0.3],
-            'l2_leaf_reg': [3, 1, 5, 10, 50, 100],
-            'border_count': [32, 5, 10, 20, 50, 100, 200],
-            'thread_count': [4]}
-    return model.randomized_search(grid, X=train_dataset, n_iter=20, plot=True, verbose=False)
+    grid = {
+        'depth': [6, 4, 5, 7, 8, 9, 10],
+        'iterations': [100],
+        'learning_rate': [0.1, 0.2, 0.3],
+        'l2_leaf_reg': [3, 1, 5, 10, 50, 100],
+        'border_count': [32, 5, 10, 20, 50, 100, 200],
+        'thread_count': [4]
+    }
+    return model.randomized_search(grid,
+                                   X=train_dataset,
+                                   n_iter=20,
+                                   plot=True,
+                                   verbose=False)
 
 
 def print_regression_testing_performance(y_pred, y_test):
@@ -54,7 +66,9 @@ def print_classification_testing_performance(y_test, y_pred):
     print('F1-score: {:.2f}'.format(f1_score(y_test, y_pred)))
 
 
-def search_optimized_parameters(model, train_dataset, tune_function=tune_classification_model):
+def search_optimized_parameters(model,
+                                train_dataset,
+                                tune_function=tune_classification_model):
     """
     Search oprimized parameters
     :param model: model for tuning
@@ -84,6 +98,12 @@ def print_multiclassification_testing_performance(y_test, y_pred, average):
     labels = [0, 1, 2, 3]
     print("Testing performance")
     print('Accuracy: {:.2f}'.format(accuracy_score(y_test, y_pred)))
-    print(f'Precision: {precision_score(y_test, y_pred, labels=labels, average=average)}')
-    print(f'Recall: {recall_score(y_test, y_pred, labels=labels, average=average)}')
-    print(f'F1-score: {f1_score(y_test, y_pred, labels=labels, average=average)}')
+    print(
+        f'Precision: {precision_score(y_test, y_pred, labels=labels, average=average)}'
+    )
+    print(
+        f'Recall: {recall_score(y_test, y_pred, labels=labels, average=average)}'
+    )
+    print(
+        f'F1-score: {f1_score(y_test, y_pred, labels=labels, average=average)}'
+    )
