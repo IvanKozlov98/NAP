@@ -1,7 +1,7 @@
 
-from src.utils.preprocessing import *
 import argparse
 
+from src.utils.preprocessing import *
 from src.utils.utils import *
 
 

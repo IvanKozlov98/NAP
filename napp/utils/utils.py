@@ -1,9 +1,9 @@
-from tqdm import tqdm
-import numpy as np
-from scipy.stats import norm
-from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.pyplot as plt
+import numpy as np
 from Bio import SeqIO
+from matplotlib.colors import LinearSegmentedColormap
+from scipy.stats import norm
+from tqdm import tqdm
 
 
 def divide_by_distance(matrix, resolution, upto=1000000):

@@ -1,6 +1,6 @@
 import numpy as np
-from tqdm import tqdm
 import pandas as pd
+from tqdm import tqdm
 
 
 def get_len_chr(hic, name_chr):

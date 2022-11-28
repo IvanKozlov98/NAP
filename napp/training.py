@@ -1,7 +1,8 @@
 import argparse
-from catboost import CatBoostClassifier, CatBoostRegressor, Pool
-import pandas as pd
+
 import numpy as np
+import pandas as pd
+from catboost import CatBoostClassifier, CatBoostRegressor, Pool
 from src.utils.utils import *
 
 

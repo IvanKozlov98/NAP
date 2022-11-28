@@ -1,8 +1,8 @@
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 import catboost as cb
+import numpy as np
+from sklearn.metrics import (accuracy_score, f1_score, mean_squared_error,
+                             precision_score, r2_score, recall_score)
+from sklearn.model_selection import train_test_split
 
 
 def get_train_test(dataset):

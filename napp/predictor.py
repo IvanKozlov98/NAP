@@ -1,9 +1,10 @@
 import argparse
-from catboost import CatBoostClassifier, CatBoostRegressor
-import pandas as pd
+
 import numpy as np
-from src.utils.utils import *
+import pandas as pd
+from catboost import CatBoostClassifier, CatBoostRegressor
 from src.utils.ml import *
+from src.utils.utils import *
 
 
 def parse_cmdline():

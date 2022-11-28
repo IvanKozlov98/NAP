@@ -1,8 +1,8 @@
-from src.utils.ml import assign_class
-import hicstraw
-from src.utils.preprocessing import *
 import argparse
 
+import hicstraw
+from src.utils.ml import assign_class
+from src.utils.preprocessing import *
 from src.utils.utils import *
 
 
