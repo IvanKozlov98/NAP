@@ -146,12 +146,3 @@ we will simplify it.
    
 3) Zhuravlev, Aleksandr V., et al. "Chromatin Structure and “DNA Sequence View”: The Role of Satellite DNA in Ectopic
    Pairing of the Drosophila X Polytene Chromosome." International Journal of Molecular Sciences 22.16 (2021): 8713.
-
-
-
-
-
-
-
-
-
