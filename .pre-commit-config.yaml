@@ -13,19 +13,19 @@ repos:
     hooks:
       - id: yapf
         args: [--style=style.ini, -i, -r]
-        files: napp
+        files: 'napp/'
 -   repo: https://github.com/pycqa/isort
     rev: 5.8.0
     hooks:
     -   id: isort
-        files: .
+        files: "."
         name: isort (python)
 -   repo: https://github.com/PyCQA/flake8
     rev: 3.9.1
     hooks:
     -   id: flake8
         args: [--config=setup.cfg]
-        files: napp
+        files: "napp/"
         additional_dependencies: [
             flake8-bugbear==22.10.27,
             pep8-naming==0.13.2,
