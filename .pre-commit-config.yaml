@@ -24,10 +24,10 @@ repos:
     hooks:
     -   id: flake8
         args: [--config=setup.cfg, napp/]
-#        additional_dependencies: [
-#            flake8-bugbear==22.10.27
+        additional_dependencies: [
+            flake8-bugbear==22.10.27
 #            pep8-naming==0.13.2
 #            flake8-docstrings==1.6.0
 #            flake8-builtins==2.0.1
 #            flake8-quotes==3.3.1
-#        ]
+        ]
