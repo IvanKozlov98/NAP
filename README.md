@@ -52,6 +52,7 @@ Instructions for downloading and installing the package manager **Poetry**: http
 ### Deployment of the environment
 ``poetry config virtualenvs.in-project true``
 
+
 ``poetry install``
 
 ### Package building
@@ -82,6 +83,7 @@ Windows:
   * flake8-docstrings
   * flake8-builtins
   * flake8-quotes
+
 
 ## Requirements
 
