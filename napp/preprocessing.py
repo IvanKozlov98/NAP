@@ -1,7 +1,15 @@
+"""Preprocessing module"""
+
 import argparse
 
-from src.utils.preprocessing import *
-from src.utils.utils import *
+import pandas as pd
+
+from napp.utils.preprocessing import (get_density_per_bin,
+                                      get_distance_between_pair,
+                                      get_gc_content_per_bin,
+                                      get_ncount_matrix, name_to_gene_type)
+from napp.utils.utils import (cartesian, get_genome_seq,
+                              get_name_to_type_repeat, get_path_to_common_data)
 
 
 def preprocessing_common_data(name_chr, resolution, genome_file,
@@ -59,14 +67,15 @@ def preprocessing_common_data(name_chr, resolution, genome_file,
 
     data_per_pair_bin = cartesian(data_per_bin, data_per_bin)
     # add information about gomology
-    data_per_pair_bin['gomology'] = ncounts_matrix.flatten()
+    data_per_pair_bin["gomology"] = ncounts_matrix.flatten()
     # add information about distance
-    data_per_pair_bin['distance'] = distance_between_pair.flatten()
+    data_per_pair_bin["distance"] = distance_between_pair.flatten()
 
     return data_per_pair_bin
 
 
 def parse_cmdline():
+    """Parse cmdline arguments"""
     parser = argparse.ArgumentParser(description="Make dataset based on DNA.")
     parser.add_argument("-c",
                         "--name_chr",
@@ -108,7 +117,8 @@ def parse_cmdline():
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    """Main function"""
     args = parse_cmdline()
     common_data = preprocessing_common_data(
         name_chr=args.name_chr,
@@ -117,9 +127,10 @@ if __name__ == '__main__':
         bed_file_with_repeat_annotation=args.repeat,
         bed_file_with_gene_annotation=args.gene,
         ncounts_file=args.gomology)
-    print('Common data was computed')
-    print('Start saving this')
+    print("Common data was computed")
+
+    print("Start saving this")
     common_data_path = get_path_to_common_data(args.output)
     common_data.to_csv(common_data_path, index=False)
-    print('Finish saving')
-    print(f'Common data was computed and saved into {common_data_path}')
+    print("Finish saving")
+    print(f"Common data was computed and saved into {common_data_path}")

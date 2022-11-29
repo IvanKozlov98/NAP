@@ -1,13 +1,17 @@
+"""Predictor module"""
+
 import argparse
 
 import numpy as np
 import pandas as pd
 from catboost import CatBoostClassifier, CatBoostRegressor
-from src.utils.ml import *
-from src.utils.utils import *
+
+from napp.utils.utils import (get_path_to_common_data, get_path_to_models,
+                              get_path_to_predictions)
 
 
 def parse_cmdline():
+    """Parse cmdline arguments"""
     parser = argparse.ArgumentParser(
         description="Prediction hic-data based on dataset from preprocessing.")
     parser.add_argument("-d",
@@ -26,12 +30,13 @@ def parse_cmdline():
                         type=str,
                         help="type of task",
                         required=True,
-                        choices=['Regression', 'Binary', 'Multiclass'])
+                        choices=["Regression", "Binary", "Multiclass"])
     args = parser.parse_args()
     return args
 
 
 def predict(name_model, name_dataset, ml_task):
+    """Prediction function"""
     if ml_task == "Regression":
         model = CatBoostRegressor()
     else:
@@ -42,9 +47,10 @@ def predict(name_model, name_dataset, ml_task):
     return model.predict(test_dataset)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    """Main function"""
     args = parse_cmdline()
     y_pred = predict(args.model, args.dataset, args.ml_task)
     pred_path = get_path_to_predictions(args.output)
     np.save(pred_path, y_pred)
-    print(f'Predictions was computed and saved into {pred_path}')
+    print(f"Predictions was computed and saved into {pred_path}")

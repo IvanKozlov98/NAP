@@ -1,17 +1,21 @@
+"""Training module"""
+
 import argparse
 
 import numpy as np
 import pandas as pd
 from catboost import CatBoostClassifier, CatBoostRegressor, Pool
-from src.utils.utils import *
+
+from napp.utils.utils import (get_path_to_common_data, get_path_to_models,
+                              get_path_to_targets)
 
 
 def train_model(path_to_X, path_to_y, thread_count, type_task):
     """
-    :param X:
-    :param y:
+    :param path_to_X:
+    :param path_to_y:
     :param thread_count: number of thread for training
-    :param type_task: maybe one of 'Regression', 'Binary', 'Multiclass'
+    :param type_task: maybe one of "Regression", "Binary", "Multiclass"
     :return:
     """
     if type_task == "Regression":
@@ -21,7 +25,7 @@ def train_model(path_to_X, path_to_y, thread_count, type_task):
                                   l2_leaf_reg=50,
                                   iterations=1000,
                                   learning_rate=0.1,
-                                  loss_function='RMSE')
+                                  loss_function="RMSE")
     elif type_task == "Binary":
         model = CatBoostClassifier(border_count=200,
                                    thread_count=thread_count,
@@ -37,9 +41,8 @@ def train_model(path_to_X, path_to_y, thread_count, type_task):
                                    iterations=1000,
                                    learning_rate=0.2)
     else:
-        raise RuntimeError(
-            "Type target must be one of {\'Regression\', \'Binary\', \'Multiclass\'}"
-        )
+        raise RuntimeError("Type target must be one of "
+                           "{\"Regression\", \"Binary\", \"Multiclass\"}")
     X = pd.read_csv(path_to_X)
     y = np.load(path_to_y)
     train_dataset = Pool(X, y)
@@ -48,10 +51,10 @@ def train_model(path_to_X, path_to_y, thread_count, type_task):
 
 
 def parse_cmdline():
+    """Parse cmdline arguments"""
     parser = argparse.ArgumentParser(
-        description=
-        "Build model based on data from preprocessing.py and extract_target.py"
-    )
+        description="Build model based on data "
+        "from preprocessing.py and extract_target.py")
     parser.add_argument("-x",
                         "--dataset",
                         type=str,
@@ -73,7 +76,7 @@ def parse_cmdline():
                         type=str,
                         help="type of task",
                         required=True,
-                        choices=['Regression', 'Binary', 'Multiclass'])
+                        choices=["Regression", "Binary", "Multiclass"])
     parser.add_argument("-o",
                         "--output",
                         type=str,
@@ -84,7 +87,8 @@ def parse_cmdline():
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    """Main function"""
     args = parse_cmdline()
     model = train_model(path_to_X=get_path_to_common_data(args.dataset),
                         path_to_y=get_path_to_targets(args.target),
@@ -92,4 +96,4 @@ if __name__ == '__main__':
                         type_task=args.ml_task)
     model_path = get_path_to_models(args.output)
     model.save_model(model_path)
-    print(f'Model was computed and saved into {model_path}')
+    print(f"Model was computed and saved into {model_path}")

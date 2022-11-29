@@ -1,9 +1,13 @@
+"""Target module"""
+
 import argparse
 
 import hicstraw
-from src.utils.ml import assign_class
-from src.utils.preprocessing import *
-from src.utils.utils import *
+import numpy as np
+
+from napp.utils.ml import assign_class
+from napp.utils.preprocessing import get_hic_matrix_one_chr
+from napp.utils.utils import get_path_to_targets
 
 
 def get_target(hic_file, name_chr, resolution, type_target):
@@ -11,11 +15,11 @@ def get_target(hic_file, name_chr, resolution, type_target):
     :param hic_file: file or url with hic-data
     :param name_chr: name of chromosome
     :param resolution: size of the bin
-    :param type_target: maybe one of 'Regression', 'Binary', 'Multiclass'
+    :param type_target: maybe one of "Regression", "Binary", "Multiclass"
     :return: target based on hic-data
     """
     hic = hicstraw.HiCFile(hic_file)
-    hic_matrix = getHicMatrixOneChr(hic, name_chr, resolution)
+    hic_matrix = get_hic_matrix_one_chr(hic, name_chr, resolution)
     regression_target = hic_matrix.flatten()
     if type_target == "Regression":
         return regression_target
@@ -25,12 +29,12 @@ def get_target(hic_file, name_chr, resolution, type_target):
     elif type_target == "Multiclass":
         return np.array(list(map(assign_class, regression_target)))
     else:
-        raise RuntimeError(
-            "Type target must be one of {\'Regression\', \'Binary\', \'Multiclass\'}"
-        )
+        raise RuntimeError("Type target must be one of "
+                           "{\"Regression\", \"Binary\", \"Multiclass\"}")
 
 
 def parse_cmdline():
+    """Parse cmdline arguments"""
     parser = argparse.ArgumentParser(
         description="Extract target for model from hic-data")
     parser.add_argument("-c",
@@ -49,7 +53,7 @@ def parse_cmdline():
                         type=str,
                         help="type of task",
                         required=True,
-                        choices=['Regression', 'Binary', 'Multiclass'])
+                        choices=["Regression", "Binary", "Multiclass"])
     parser.add_argument("-o",
                         "--output",
                         type=str,
@@ -59,7 +63,8 @@ def parse_cmdline():
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    """Main function"""
     args = parse_cmdline()
     target = get_target(hic_file=args.hic,
                         name_chr=args.name_chr,
@@ -67,4 +72,4 @@ if __name__ == '__main__':
                         type_target=args.ml_task)
     target_path = get_path_to_targets(args.output)
     np.save(target_path, target)
-    print(f'Target was computed and saved into {target_path}')
+    print(f"Target was computed and saved into {target_path}")
