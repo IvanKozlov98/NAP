@@ -1,0 +1,4 @@
+outs:
+- md5: 805bfb99cb418e711f553d71d362ca81
+  size: 8334673
+  path: ncounts_3L.tsv
