@@ -1,0 +1,115 @@
+schema: '2.0'
+stages:
+  prepare_train_features:
+    cmd: python -m napp.preprocessing -c 2R -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed
+      -chr data/Amer/2R/2R_chr.fa -g data/Amer/2R/2r_annotation_order.txt -gm data/Amer/2R/ncounts_2R.tsv
+      -o 2R_dataset.csv
+    deps:
+    - path: data/Amer/2R/2R_chr.fa
+      md5: ff20dcfdc639857b8f67a51a0df02f14
+      size: 64331986
+    - path: data/Amer/2R/2r_annotation_order.txt
+      md5: 5c0be895292e206ecb00345757c0c009
+      size: 2280372
+    - path: data/Amer/2R/ncounts_2R.tsv
+      md5: 762ad21ebdde5249b3754ff95b79712b
+      size: 20859653
+    - path: data/Amer/Amer_repeat_annotation_total.bed
+      md5: 5834783eab4e54f9ba85b3c21b717416
+      size: 9371683
+    - path: napp/preprocessing.py
+      md5: 3cee6676c5de8d59a06af867dcf592c5
+      size: 4740
+    outs:
+    - path: caching_data/common_data/2R_dataset.csv
+      md5: 5b6bd4a5e838ecd0e58582f18f96795e
+      size: 221550633
+  prepare_train_target:
+    cmd: python -m napp.extract_target -c 2R -r 50000 -hic data/Amer/AmerR4A_V4.1000.hic
+      -m Binary -o 2R_target_50000.npy
+    deps:
+    - path: data/Amer/AmerR4A_V4.1000.hic
+      md5: 0ffaa2cc66134507cde4064dbf7794e0
+      size: 205553729
+    - path: napp/extract_target.py
+      md5: c6eaaa962d0b3db7fa54efc8562632ab
+      size: 2653
+    outs:
+    - path: caching_data/targets/2R_target_50000.npy
+      md5: dbe7aabd5aaa1efa98e83ab724dd4ddf
+      size: 12822176
+  train:
+    cmd: python -m napp.training -x 2R_dataset.csv -y 2R_target_50000.npy -t 4 -m
+      Binary -o 2R_model_50000_binary.bin
+    deps:
+    - path: caching_data/common_data/2R_dataset.csv
+      md5: 5b6bd4a5e838ecd0e58582f18f96795e
+      size: 221550633
+    - path: caching_data/targets/2R_target_50000.npy
+      md5: dbe7aabd5aaa1efa98e83ab724dd4ddf
+      size: 12822176
+    - path: napp/training.py
+      md5: e7b373e5721b86ef5cc7935d48a3e69a
+      size: 3692
+    outs:
+    - path: caching_data/models/2R_model_50000_binary.bin
+      md5: 07db12f1255ce516d3f6aa713d5cee0e
+      size: 90360
+  prepare_test_target:
+    cmd: python -m napp.extract_target -c 3L -hic data/Amer/AmerR4A_V4.1000.hic -r
+      50000 -m Binary -o 3L_target_50000.npy
+    deps:
+    - path: data/Amer/AmerR4A_V4.1000.hic
+      md5: 0ffaa2cc66134507cde4064dbf7794e0
+      size: 205553729
+    - path: napp/extract_target.py
+      md5: c6eaaa962d0b3db7fa54efc8562632ab
+      size: 2653
+    outs:
+    - path: caching_data/targets/3L_target_50000.npy
+      md5: e0820ce41700503e7cd98fa062d3b480
+      size: 5120128
+  prepare_test_features:
+    cmd: python -m napp.preprocessing -c 3L -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed
+      -chr data/Amer/3L/3L_chr.fa -g data/Amer/3L/3l_annotation_order.txt -gm data/Amer/3L/ncounts_3L.tsv
+      -o 3L_dataset.csv
+    deps:
+    - path: data/Amer/3L/3L_chr.fa
+      md5: 035b5d5926ab23467d351603be6577ce
+      size: 40626164
+    - path: data/Amer/3L/3l_annotation_order.txt
+      md5: 7d5cc3b7b87e23de210c3aedac6d7e53
+      size: 1228279
+    - path: data/Amer/3L/ncounts_3L.tsv
+      md5: 805bfb99cb418e711f553d71d362ca81
+      size: 8334673
+    - path: data/Amer/Amer_repeat_annotation_total.bed
+      md5: 5834783eab4e54f9ba85b3c21b717416
+      size: 9371683
+    - path: napp/preprocessing.py
+      md5: 3cee6676c5de8d59a06af867dcf592c5
+      size: 4740
+    outs:
+    - path: caching_data/common_data/3L_dataset.csv
+      md5: 08e2d53cdb866b9186ab68941a5146aa
+      size: 88403288
+  evaluate:
+    cmd: python -m napp.predictor -d 3L_dataset.csv -model 2R_model_50000_binary.bin
+      -m Binary -t 3L_target_50000.npy -o 3L_prediction.npy -q evaluation/metrics.json
+    deps:
+    - path: caching_data/common_data/3L_dataset.csv
+      md5: 08e2d53cdb866b9186ab68941a5146aa
+      size: 88403288
+    - path: caching_data/models/2R_model_50000_binary.bin
+      md5: 07db12f1255ce516d3f6aa713d5cee0e
+      size: 90360
+    - path: caching_data/targets/3L_target_50000.npy
+      md5: e0820ce41700503e7cd98fa062d3b480
+      size: 5120128
+    - path: napp/predictor.py
+      md5: c9a25df4660f4064a97389873cfe9eed
+      size: 2545
+    outs:
+    - path: evaluation/metrics.json
+      md5: 1f5bf7fa76027109aaa1473bb9c0573b
+      size: 117

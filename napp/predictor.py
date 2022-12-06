@@ -6,8 +6,9 @@ import numpy as np
 import pandas as pd
 from catboost import CatBoostClassifier, CatBoostRegressor
 
+from napp.utils.ml import save_classification_testing_performance
 from napp.utils.utils import (get_path_to_common_data, get_path_to_models,
-                              get_path_to_predictions)
+                              get_path_to_predictions, get_path_to_targets)
 
 
 def parse_cmdline():
@@ -24,6 +25,16 @@ def parse_cmdline():
                         "--output",
                         type=str,
                         help="name of output file with prediction",
+                        required=True)
+    parser.add_argument("-t",
+                        "--test_target",
+                        type=str,
+                        help="test target for calculate metrics",
+                        required=True)
+    parser.add_argument("-q",
+                        "--metric_path",
+                        type=str,
+                        help="path to file with metrics",
                         required=True)
     parser.add_argument("-m",
                         "--ml_task",
@@ -54,3 +65,6 @@ if __name__ == "__main__":
     pred_path = get_path_to_predictions(args.output)
     np.save(pred_path, y_pred)
     print(f"Predictions was computed and saved into {pred_path}")
+    test_target = np.load(get_path_to_targets(args.test_target))
+    save_classification_testing_performance(test_target, y_pred,
+                                            args.metric_path)

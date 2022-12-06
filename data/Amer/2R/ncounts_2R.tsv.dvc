@@ -1,0 +1,4 @@
+outs:
+- md5: 762ad21ebdde5249b3754ff95b79712b
+  size: 20859653
+  path: ncounts_2R.tsv
