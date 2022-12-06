@@ -51,6 +51,8 @@ Instructions for downloading and installing the package manager **Poetry**: http
 
 ### Deployment of the environment
 ``poetry config virtualenvs.in-project true``
+
+
 ``poetry install``
 
 ### Package building
@@ -68,6 +70,20 @@ Unix/MacOS:
 Windows:
 
 ``py -m pip install --index-url https://test.pypi.org/simple/ --no-deps napp``
+
+## CodeStyle
+**Formatters**:
+* yapf
+* isort
+
+**Linters and plugins**:
+* flake8
+  * flake8-bugbear
+  * pep8-naming
+  * flake8-docstrings
+  * flake8-builtins
+  * flake8-quotes
+
 
 ## Requirements
 
@@ -170,12 +186,3 @@ we will simplify it.
    
 3) Zhuravlev, Aleksandr V., et al. "Chromatin Structure and “DNA Sequence View”: The Role of Satellite DNA in Ectopic
    Pairing of the Drosophila X Polytene Chromosome." International Journal of Molecular Sciences 22.16 (2021): 8713.
-
-
-
-
-
-
-
-
-
