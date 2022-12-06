@@ -1,5 +1,7 @@
 """ML-helper module"""
 
+import json
+
 import catboost as cb
 import numpy as np
 from sklearn.metrics import (accuracy_score, f1_score, mean_squared_error,
@@ -72,6 +74,18 @@ def print_classification_testing_performance(y_test, y_pred):
     print("Precision: {:.2f}".format(precision_score(y_test, y_pred)))
     print("Recall: {:.2f}".format(recall_score(y_test, y_pred)))
     print("F1-score: {:.2f}".format(f1_score(y_test, y_pred)))
+
+
+def save_classification_testing_performance(y_test, y_pred, json_path):
+    """Save classification testing performance to json-path"""
+    scores = {
+        "Accuracy": accuracy_score(y_test, y_pred),
+        "Precision": precision_score(y_test, y_pred),
+        "Recall": recall_score(y_test, y_pred),
+        "F1-score": f1_score(y_test, y_pred)
+    }
+    with open(json_path, "a") as outfile:
+        json.dump(scores, outfile)
 
 
 def search_optimized_parameters(model,
