@@ -1,0 +1,61 @@
+stages:
+  prepare_train_features:
+    cmd: python -m napp.preprocessing -c 2R -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed
+      -chr data/Amer/2R/2R_chr.fa -g data/Amer/2R/2r_annotation_order.txt -gm data/Amer/2R/ncounts_2R.tsv
+      -o 2R_dataset.csv
+    deps:
+    - data/Amer/2R/2R_chr.fa
+    - data/Amer/2R/2r_annotation_order.txt
+    - data/Amer/2R/ncounts_2R.tsv
+    - data/Amer/Amer_repeat_annotation_total.bed
+    - napp/preprocessing.py
+    outs:
+    - caching_data/common_data/2R_dataset.csv
+  prepare_train_target:
+    cmd: python -m napp.extract_target -c 2R -r 50000 -hic data/Amer/AmerR4A_V4.1000.hic
+      -m Binary -o 2R_target_50000.npy
+    deps:
+    - data/Amer/AmerR4A_V4.1000.hic
+    - napp/extract_target.py
+    outs:
+    - caching_data/targets/2R_target_50000.npy
+  train:
+    cmd: python -m napp.training -x 2R_dataset.csv -y 2R_target_50000.npy -t 4 -m
+      Binary -o 2R_model_50000_binary.bin
+    deps:
+    - caching_data/common_data/2R_dataset.csv
+    - caching_data/targets/2R_target_50000.npy
+    - napp/training.py
+    outs:
+    - caching_data/models/2R_model_50000_binary.bin
+  prepare_test_features:
+    cmd: python -m napp.preprocessing -c 3L -r 50000 -rp data/Amer/Amer_repeat_annotation_total.bed
+      -chr data/Amer/3L/3L_chr.fa -g data/Amer/3L/3l_annotation_order.txt -gm data/Amer/3L/ncounts_3L.tsv
+      -o 3L_dataset.csv
+    deps:
+    - data/Amer/3L/3L_chr.fa
+    - data/Amer/3L/3l_annotation_order.txt
+    - data/Amer/3L/ncounts_3L.tsv
+    - data/Amer/Amer_repeat_annotation_total.bed
+    - napp/preprocessing.py
+    outs:
+    - caching_data/common_data/3L_dataset.csv
+  prepare_test_target:
+    cmd: python -m napp.extract_target -c 3L -hic data/Amer/AmerR4A_V4.1000.hic -r
+      50000 -m Binary -o 3L_target_50000.npy
+    deps:
+    - data/Amer/AmerR4A_V4.1000.hic
+    - napp/extract_target.py
+    outs:
+    - caching_data/targets/3L_target_50000.npy
+  evaluate:
+    cmd: python -m napp.predictor -d 3L_dataset.csv -model 2R_model_50000_binary.bin
+      -m Binary -t 3L_target_50000.npy -o 3L_prediction.npy -q evaluation/metrics.json
+    deps:
+    - caching_data/common_data/3L_dataset.csv
+    - caching_data/models/2R_model_50000_binary.bin
+    - caching_data/targets/3L_target_50000.npy
+    - napp/predictor.py
+    metrics:
+    - evaluation/metrics.json:
+        cache: false
