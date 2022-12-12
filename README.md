@@ -83,6 +83,46 @@ Windows:
   * flake8-builtins
   * flake8-quotes
 
+## DAG pipeline
+```mermaid
+flowchart TD
+	node1["data/Amer/2R/2R_chr.fa.dvc"]
+	node2["data/Amer/2R/2r_annotation_order.txt.dvc"]
+	node3["data/Amer/2R/ncounts_2R.tsv.dvc"]
+	node4["data/Amer/3L/3L_chr.fa.dvc"]
+	node5["data/Amer/3L/3l_annotation_order.txt.dvc"]
+	node6["data/Amer/3L/ncounts_3L.tsv.dvc"]
+	node7["data/Amer/AmerR4A_V4.1000.hic.dvc"]
+	node8["data/Amer/Amer_repeat_annotation_total.bed.dvc"]
+	node9["evaluate"]
+	node10["prepare_test_features"]
+	node11["prepare_test_target"]
+	node12["prepare_train_features"]
+	node13["prepare_train_target"]
+	node14["train"]
+	node1-->node12
+	node2-->node12
+	node3-->node12
+	node4-->node10
+	node5-->node10
+	node6-->node10
+	node7-->node11
+	node7-->node13
+	node8-->node10
+	node8-->node12
+	node10-->node9
+	node11-->node9
+	node12-->node14
+	node13-->node14
+	node14-->node9
+```
+
+
+## How to run pipeline?
+To run pipeline enter this:
+
+``dvc run -n evaluate -d napp/predictor.py -d caching_data/common_data/3L_dataset.csv -d caching_data/models/2R_model_50000_binary.bin -d caching_data/targets/3L_target_50000.npy -M evaluation/metrics.json python -m napp.predictor -d 3L_dataset.csv -model 2R_model_50000_binary.bin -m Binary -t 3L_target_50000.npy  -o 3L_prediction.npy -q evaluation/metrics.json``
+
 ## Requirements
 
 The program was tested on MacOS, Ubuntu. The amount of RAM depends on resolution and chromosome/genome fragment length 
